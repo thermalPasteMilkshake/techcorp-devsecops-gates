@@ -1,0 +1,17 @@
+[extend]
+useDefault = true
+
+[[rules]]
+id = "techcorp-api-key"
+description = "TechCorp API key"
+regex = '''sk-techcorp-[a-zA-Z0-9-]{6,}'''
+tags = ["key", "techcorp"]
+
+[[rules]]
+id = "hardcoded-assignment-secret"
+description = "Hardcoded API key / password / token assignment"
+regex = '''(?i)(api_key|apikey|db_password|password|secret|token)\s*=\s*["'][^"']{6,}["']'''
+tags = ["secret", "assignment"]
+
+[rules.allowlist]
+regexes = ['''os\.environ''', '''getenv''']

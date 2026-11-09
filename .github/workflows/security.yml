@@ -1,0 +1,47 @@
+name: AI Security Gates
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (full history for secret scanning)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install scanners
+        run: |
+          python -m pip install --upgrade pip
+          pip install bandit pip-audit
+
+      # Each gate uses `if: always()` so every gate runs and shows its own
+      # pass/fail, instead of the job stopping at the first failure. A failing
+      # gate (exit!=0) turns that step red and fails the whole pipeline.
+      - name: Gate 1 - Bandit SAST
+        if: always()
+        run: bandit -r . --severity-level medium --confidence-level medium
+
+      - name: Gate 2 - pip-audit dependency scan
+        if: always()
+        run: pip-audit -r requirements.txt
+
+      - name: Gate 3 - Gitleaks secret detection
+        if: always()
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: .gitleaks.toml
+
+      - name: Gate 4 - Custom injection scanner
+        if: always()
+        run: python inject_scanner.py .

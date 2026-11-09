@@ -1,0 +1,6 @@
+# FAIL-STATE requirements.txt - Problem 2: pinned to known-vulnerable versions
+# (Safety / pip-audit should flag Critical/High CVEs).
+flask==0.12.2
+requests==2.19.1
+pyyaml==5.1
+jinja2==2.10
