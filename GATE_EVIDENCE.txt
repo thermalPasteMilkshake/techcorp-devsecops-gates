@@ -42,3 +42,19 @@ EXIT=0
 inject_scanner: clean - no hardcoded prompts or injection phrases found.
 
 Legend: EXIT!=0 => gate FAILS the pipeline (blocks the commit). EXIT=0 => gate passes.
+
+################## LIVE GITHUB ACTIONS RUN (2026-11-09) ##################
+Repo:  github.com/thermalPasteMilkshake/techcorp-devsecops-gates (private)
+Run:   https://github.com/thermalPasteMilkshake/techcorp-devsecops-gates/actions/runs/42612899894
+Workflow: .github/workflows/security.yml  ("AI Security Gates", on: push)
+Conclusion: FAILURE (28s)  -- all four gates ran via `if: always()`:
+
+  X Gate 1 - Bandit SAST            (B307 eval in app.py)            exit 1
+  X Gate 2 - pip-audit              (CVEs in flask/requests/jinja2/  exit 1
+                                     pyyaml/urllib3)
+  X Gate 3 - Gitleaks              (3 secrets in config.py:          leaks found
+                                     sk-techcorp-live-..., DB_PASSWORD)
+  X Gate 4 - Custom injection scan  (hardcoded SYSTEM_PROMPT +       exit 1
+                                     "ignore previous instructions")
+
+This is the screenshot target for the "failing pipeline" deliverable.
