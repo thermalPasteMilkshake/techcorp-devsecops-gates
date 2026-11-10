@@ -1,4 +1,24 @@
+# Code-only: exclude deliverables, screenshots, evidence dumps, binaries
+Deliverables/
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.svg
+*.pdf
+*.pptx
+*.docx
+*.xlsx
+*.zip
 __pycache__/
 *.pyc
+*.bak
+*_capture.txt
+*_evidence.txt
+*_proxy_capture.txt
+pip_audit_*.json
+redteam_results*.json
+ai-lab/
 redteam-env/
-*.env
+capstone-env/
